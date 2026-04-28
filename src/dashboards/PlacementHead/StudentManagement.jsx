@@ -45,7 +45,7 @@ export default function StudentManagement() {
       {tab === 'students' && (
         <div className="card table-container">
           <table className="table">
-            <thead><tr><th>Student</th><th>Username</th><th>Role</th><th>Applications</th></tr></thead>
+            <thead><tr><th>Student</th><th>Username</th><th>Name</th><th>Department</th><th>Role</th><th>Applications</th></tr></thead>
             <tbody>
               {filteredStudents.map(s => (
                 <tr key={s.id}>
@@ -58,11 +58,13 @@ export default function StudentManagement() {
                     </div>
                   </td>
                   <td>{s.username}</td>
+                  <td>{s.name || '—'}</td>
+                  <td>{s.department || '—'}</td>
                   <td><span className="badge badge-primary">{s.role}</span></td>
                   <td>{apps.filter(a => a.studentUsername === s.username).length}</td>
                 </tr>
               ))}
-              {filteredStudents.length === 0 && <tr><td colSpan={4} style={{ textAlign: 'center' }}>No students found.</td></tr>}
+              {filteredStudents.length === 0 && <tr><td colSpan={6} style={{ textAlign: 'center' }}>No students found.</td></tr>}
             </tbody>
           </table>
         </div>

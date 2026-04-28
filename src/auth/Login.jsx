@@ -71,6 +71,9 @@ export default function Login() {
           New student? <Link to="/register">Register here</Link>
         </p>
         <p style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.85rem' }}>
+          <Link to="/reset-password">Forgot password?</Link>
+        </p>
+        <p style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.85rem' }}>
           Placement Head? <Link to="/login/head">→ Admin Login</Link>
         </p>
       </div>

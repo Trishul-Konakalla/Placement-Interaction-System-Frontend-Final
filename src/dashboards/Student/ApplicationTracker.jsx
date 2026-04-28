@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import Layout from '../../components/common/Layout';
+import { Trash2 } from 'lucide-react';
 
 const STAGES = ['Applied', 'Shortlisted', 'Interview', 'Selected'];
 
@@ -19,10 +20,28 @@ export default function ApplicationTracker() {
   const { user } = useAuth();
   const [apps, setApps] = useState([]);
 
-  useEffect(() => {
+  const fetchApps = () => {
     fetch(`/api/applications/student/${user.username}`)
-      .then(r => r.json()).then(setApps).catch(() => {});
-  }, [user.username]);
+      .then(r => r.json())
+      .then(data => {
+        if (!Array.isArray(data)) return;
+        setApps(data);
+        // update stored statuses for notification badge
+        const map = {};
+        data.forEach(a => { map[a.id] = a.status; });
+        localStorage.setItem('app_statuses', JSON.stringify(map));
+      }).catch(() => {});
+  };
+
+  useEffect(() => { fetchApps(); }, [user.username]);
+
+  const handleWithdraw = async (id) => {
+    if (!confirm('Withdraw this application?')) return;
+    const res = await fetch(`/api/applications/withdraw/${id}`, { method: 'DELETE' });
+    const text = await res.text();
+    if (res.ok) fetchApps();
+    else alert(text);
+  };
 
   return (
     <Layout>
@@ -36,6 +55,7 @@ export default function ApplicationTracker() {
           {apps.map(app => {
             const idx = stageIndex(app.status);
             const isRejected = app.status === 'Rejected';
+            const canWithdraw = app.status === 'Applied';
             const pct = isRejected ? 100 : ((idx + 1) / STAGES.length) * 100;
             return (
               <div key={app.id} className="card">
@@ -45,7 +65,14 @@ export default function ApplicationTracker() {
                     <p style={{ fontSize: '0.85rem' }}>{app.jobRole}</p>
                     <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Applied: {app.appliedOn}</p>
                   </div>
-                  <span className={`badge ${statusBadgeClass(app.status)}`}>{app.status}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span className={`badge ${statusBadgeClass(app.status)}`}>{app.status}</span>
+                    {canWithdraw && (
+                      <button className="btn btn-outline-danger" style={{ padding: '0.3rem 0.6rem', fontSize: '0.8rem' }} onClick={() => handleWithdraw(app.id)}>
+                        <Trash2 size={14} /> Withdraw
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div style={{ marginBottom: '0.75rem' }}>
                   <div className="progress-bar-bg">

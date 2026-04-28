@@ -9,12 +9,18 @@ export default function StudentOverview() {
   const { announcements } = useData();
   const [apps, setApps] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     fetch(`/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(data => { setApps(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
+
+    fetch(`/api/profile/${user.username}`)
+      .then(r => r.status === 204 ? null : r.json())
+      .then(data => { if (data) setProfile(data); })
+      .catch(() => {});
   }, [user.username]);
 
   const total = apps.length;
@@ -29,7 +35,6 @@ export default function StudentOverview() {
     { label: 'Selected', value: selected, color: '#8B5CF6' },
   ];
 
-  // Build company-wise application chart from real data
   const companyChart = Object.values(
     apps.reduce((acc, a) => {
       const key = a.companyName || 'Unknown';
@@ -39,14 +44,14 @@ export default function StudentOverview() {
     }, {})
   );
 
-  // Readiness based on real stats
   const readiness = Math.min(100, total * 10 + shortlisted * 15 + interviews * 20 + selected * 30);
+  const displayName = profile?.fullName || user.username;
 
   return (
     <Layout>
       <div className="page-header">
         <div>
-          <h1>Welcome back, {user.username}! 👋</h1>
+          <h1>Welcome back, {displayName}! 👋</h1>
           <p>Here's your placement activity overview</p>
         </div>
       </div>
@@ -54,9 +59,7 @@ export default function StudentOverview() {
       <div className="grid grid-cols-4 gap-4" style={{ marginBottom: '1.5rem' }}>
         {stats.map(s => (
           <div key={s.label} className="card stat-card">
-            <div className="stat-value" style={{ color: s.color }}>
-              {loading ? '—' : s.value}
-            </div>
+            <div className="stat-value" style={{ color: s.color }}>{loading ? '—' : s.value}</div>
             <div className="stat-label">{s.label}</div>
           </div>
         ))}
@@ -78,7 +81,6 @@ export default function StudentOverview() {
             </ResponsiveContainer>
           )}
         </div>
-
         <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h3 style={{ marginBottom: '1rem' }}>Placement Readiness</h3>
           <div style={{ width: 140, height: 140, borderRadius: '50%', background: `conic-gradient(#4F46E5 ${readiness * 3.6}deg, #e5e7eb ${readiness * 3.6}deg)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -95,9 +97,7 @@ export default function StudentOverview() {
 
       <div className="card">
         <h3 style={{ marginBottom: '1rem' }}>Latest Announcements</h3>
-        {announcements.length === 0 ? (
-          <p>No announcements yet.</p>
-        ) : (
+        {announcements.length === 0 ? <p>No announcements yet.</p> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {announcements.slice(0, 5).map(a => (
               <div key={a.id} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', padding: '0.75rem', background: 'rgba(79,70,229,0.05)', borderRadius: '0.5rem' }}>
@@ -106,9 +106,7 @@ export default function StudentOverview() {
                 </span>
                 <div>
                   <p style={{ color: 'var(--text-dark)', fontSize: '0.9rem' }}>{a.message}</p>
-                  <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
-                    {a.createdAt ? new Date(a.createdAt).toLocaleDateString() : ''}
-                  </p>
+                  <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>{a.createdAt ? new Date(a.createdAt).toLocaleDateString() : ''}</p>
                 </div>
               </div>
             ))}

@@ -4,6 +4,7 @@ import { DataProvider } from './context/DataContext';
 import ProtectedRoute from './auth/ProtectedRoute';
 
 import Register from './auth/Register';
+import ResetPassword from './auth/ResetPassword';
 
 import Intro from './pages/Intro';
 import Login from './auth/Login';
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/" element={<Intro />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/login/head" element={<HeadLogin />} />
 
             <Route path="/student" element={<ProtectedRoute allowedRole="student"><StudentOverview /></ProtectedRoute>} />
