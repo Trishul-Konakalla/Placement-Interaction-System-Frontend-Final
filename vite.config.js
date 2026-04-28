@@ -6,8 +6,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://placement-interaction-system-backend.onrender.com',
         changeOrigin: true,
+        secure: true,
       },
     },
   },
