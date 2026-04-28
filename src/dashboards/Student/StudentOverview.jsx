@@ -12,12 +12,12 @@ export default function StudentOverview() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/applications/student/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(data => { setApps(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
 
-    fetch(`/api/profile/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/profile/${user.username}`)
       .then(r => r.status === 204 ? null : r.json())
       .then(data => { if (data) setProfile(data); })
       .catch(() => {});

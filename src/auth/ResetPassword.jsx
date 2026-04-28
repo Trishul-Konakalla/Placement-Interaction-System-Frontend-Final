@@ -19,7 +19,7 @@ export default function ResetPassword() {
     if (form.oldPassword === form.newPassword) { setError('New password must be different from current password'); return; }
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/reset-password', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

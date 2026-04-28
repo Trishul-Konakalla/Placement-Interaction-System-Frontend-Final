@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const DataContext = createContext(null);
-export const API = '/api';
+export const API = 'https://placement-interaction-system-backend.onrender.com/api';
 
 export function DataProvider({ children }) {
   const [jobs, setJobs] = useState([]);

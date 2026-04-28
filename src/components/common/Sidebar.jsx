@@ -20,7 +20,7 @@ export default function Sidebar() {
   useEffect(() => {
     if (user?.role !== 'student') return;
     const stored = JSON.parse(localStorage.getItem('app_statuses') || '{}');
-    fetch(`/api/applications/student/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(apps => {
         if (!Array.isArray(apps)) return;
@@ -34,7 +34,7 @@ export default function Sidebar() {
 
   const clearBadge = () => {
     if (user?.role !== 'student') return;
-    fetch(`/api/applications/student/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(apps => {
         if (!Array.isArray(apps)) return;

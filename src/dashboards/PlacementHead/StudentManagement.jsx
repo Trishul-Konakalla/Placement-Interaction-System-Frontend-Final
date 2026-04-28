@@ -15,11 +15,11 @@ export default function StudentManagement() {
   const [apps, setApps] = useState([]);
   const [search, setSearch] = useState('');
 
-  const fetchApps = () => fetch('/api/applications/all').then(r => r.json()).then(setApps).catch(() => {});
+  const fetchApps = () => fetch('https://placement-interaction-system-backend.onrender.com/api/applications/all').then(r => r.json()).then(setApps).catch(() => {});
   useEffect(() => { fetchApps(); }, []);
 
   const updateStatus = async (id, status) => {
-    await fetch(`/api/applications/status/${id}`, {
+    await fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/status/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),

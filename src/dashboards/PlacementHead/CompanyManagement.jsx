@@ -21,7 +21,7 @@ export default function CompanyManagement() {
     e.preventDefault();
     setSaving(true);
     try {
-      const url = editingId ? `/api/jobs/update/${editingId}` : '/api/jobs/post';
+      const url = editingId ? `https://placement-interaction-system-backend.onrender.com/api/jobs/update/${editingId}` : 'https://placement-interaction-system-backend.onrender.com/api/jobs/post';
       const method = editingId ? 'PUT' : 'POST';
       const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
       if (res.ok) { setShowModal(false); setForm(EMPTY); setEditingId(null); fetchJobs(); }
@@ -32,7 +32,7 @@ export default function CompanyManagement() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this drive?')) return;
-    await fetch(`/api/jobs/delete/${id}`, { method: 'DELETE' });
+    await fetch(`https://placement-interaction-system-backend.onrender.com/api/jobs/delete/${id}`, { method: 'DELETE' });
     fetchJobs();
   };
 

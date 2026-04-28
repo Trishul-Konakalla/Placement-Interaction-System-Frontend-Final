@@ -13,7 +13,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/profile/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/profile/${user.username}`)
       .then(r => r.status === 204 ? null : r.json())
       .then(data => {
         if (data) {
@@ -39,7 +39,7 @@ export default function Profile() {
 
   const handleSave = async () => {
     try {
-      const res = await fetch('/api/profile/save', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/profile/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

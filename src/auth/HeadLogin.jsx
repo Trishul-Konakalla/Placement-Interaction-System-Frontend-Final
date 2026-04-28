@@ -55,7 +55,7 @@ export default function HeadLogin() {
     if (lockout > 0) return;
     setError(''); setLoading(true);
     try {
-      const res = await fetch('/api/auth/head/request-otp', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/auth/head/request-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -82,7 +82,7 @@ export default function HeadLogin() {
     e.preventDefault();
     setError(''); setLoading(true);
     try {
-      const res = await fetch('/api/auth/head/verify-otp', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/auth/head/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: form.username, otp }),

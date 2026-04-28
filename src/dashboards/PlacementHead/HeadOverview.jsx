@@ -10,7 +10,7 @@ export default function HeadOverview() {
   const [allApps, setAllApps] = useState([]);
 
   useEffect(() => {
-    fetch('/api/applications/all')
+    fetch('https://placement-interaction-system-backend.onrender.com/api/applications/all')
       .then(r => r.json())
       .then(data => setAllApps(Array.isArray(data) ? data : []))
       .catch(() => {});

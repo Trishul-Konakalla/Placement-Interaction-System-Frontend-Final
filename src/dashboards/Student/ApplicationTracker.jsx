@@ -21,7 +21,7 @@ export default function ApplicationTracker() {
   const [apps, setApps] = useState([]);
 
   const fetchApps = () => {
-    fetch(`/api/applications/student/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(data => {
         if (!Array.isArray(data)) return;
@@ -37,7 +37,7 @@ export default function ApplicationTracker() {
 
   const handleWithdraw = async (id) => {
     if (!confirm('Withdraw this application?')) return;
-    const res = await fetch(`/api/applications/withdraw/${id}`, { method: 'DELETE' });
+    const res = await fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/withdraw/${id}`, { method: 'DELETE' });
     const text = await res.text();
     if (res.ok) fetchApps();
     else alert(text);

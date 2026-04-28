@@ -15,7 +15,7 @@ export default function JobListings() {
   const [pkgFilter, setPkgFilter] = useState('');
 
   useEffect(() => {
-    fetch(`/api/applications/student/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/applications/student/${user.username}`)
       .then(r => r.json())
       .then(data => {
         setApplied(new Set(data.map(a => String(a.jobId || a.job?.id))));
@@ -25,7 +25,7 @@ export default function JobListings() {
         localStorage.setItem('app_statuses', JSON.stringify(map));
       }).catch(() => {});
 
-    fetch(`/api/profile/${user.username}`)
+    fetch(`https://placement-interaction-system-backend.onrender.com/api/profile/${user.username}`)
       .then(r => r.status === 204 ? null : r.json())
       .then(data => { if (data?.cgpa) setCgpa(parseFloat(data.cgpa) || 0); })
       .catch(() => {});
@@ -48,7 +48,7 @@ export default function JobListings() {
 
   const handleApply = async (job) => {
     try {
-      const res = await fetch('/api/applications/apply', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/applications/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ studentUsername: user.username, jobId: String(job.id) }),

@@ -31,7 +31,7 @@ export default function Register() {
     setLoading(true);
     try {
       // 1. Register user account
-      const regRes = await fetch('/api/auth/register', {
+      const regRes = await fetch('https://placement-interaction-system-backend.onrender.com/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: form.username, password: form.password, role: 'student', name: form.fullName, department: form.department }),
@@ -40,7 +40,7 @@ export default function Register() {
       if (!regRes.ok) { setError(regText || 'Registration failed'); return; }
 
       // 2. Save profile details
-      await fetch('/api/profile/save', {
+      await fetch('https://placement-interaction-system-backend.onrender.com/api/profile/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

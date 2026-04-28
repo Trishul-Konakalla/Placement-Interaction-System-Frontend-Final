@@ -13,7 +13,7 @@ export default function Broadcast() {
     if (!message.trim()) return;
     setSending(true);
     try {
-      const res = await fetch('/api/announcements/post', {
+      const res = await fetch('https://placement-interaction-system-backend.onrender.com/api/announcements/post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: 'Admin Alert', message, type }),
@@ -25,7 +25,7 @@ export default function Broadcast() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`/api/announcements/delete/${id}`, { method: 'DELETE' });
+    await fetch(`https://placement-interaction-system-backend.onrender.com/api/announcements/delete/${id}`, { method: 'DELETE' });
     fetchAnnouncements();
   };
 
